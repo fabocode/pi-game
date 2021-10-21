@@ -1,5 +1,5 @@
 # pi-game
- A little pi game to control 4 buttons, the 1st button to push, will run the respective motor faster
+ A little pi game to control 5 buttons, the 1st button to push, will run the respective motor faster. 1 button is used to stop the program
 
 
 
