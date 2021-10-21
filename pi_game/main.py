@@ -23,9 +23,9 @@ if __name__ == "__main__":
 
         # do nothing while we wait for button push
         while True:
-            if gpio.first_button and not gpio.stop_reading:
+            if gpio.first_button and not gpio.stop_reading and not gpio.stop_race:
                 gpio.stop_reading = True
-                print(f"we have a winner! -> motor at pin {gpio.winner_motor} is the winner, start the race and stop after 10 seconds")
+                print(f"we have a winner! -> motor at pin {gpio.winner_motor} is the winner, start the race and stop with push button")
                 print("...")
                 print("")
                 gpio.start_motor(gpio.winner_motor, gpio.max_dutycycle) # start at 100%
@@ -36,8 +36,8 @@ if __name__ == "__main__":
             now = time.time()
             time_dif = int(now - start)
 
-            # start counting and running the motors
-            if time_dif >= gpio.maxtime and gpio.stop_reading:
+            # continue until stop button is pushed
+            if gpio.stop_race:
                 gpio.stop_motors()
                 print("====================================")
                 print("============ Race Ended ============")
@@ -61,6 +61,7 @@ if __name__ == "__main__":
                     now = 0 
                     start = 0
                     gpio.winner_motor = 0
+                    gpio.stop_race = False
                     gpio.stop_motors()
                     continue
 

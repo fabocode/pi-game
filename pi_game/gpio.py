@@ -15,6 +15,7 @@ class Gpio:
         self.freq = 0
         self.duty = 0
         self.pi = pigpio.pi()
+        self.stop_race = False
 
         # first test is failing
         self.count_filter = 0 
@@ -34,6 +35,7 @@ class Gpio:
             self.button_2 = self.buttons[1]
             self.button_3 = self.buttons[2]
             self.button_4 = self.buttons[3]
+            self.button_5 = self.buttons[4]
             
             # set the pins used for the motors
             self.motors = self.config.get('pins')["motors"]
@@ -41,6 +43,7 @@ class Gpio:
             self.motor_2 = self.motors[1]
             self.motor_3 = self.motors[2]
             self.motor_4 = self.motors[3]
+            self.motor_5 = False
 
             # set the configuration parameters for pwm/motor 
             self.freq = self.config.get('pwm_params')["freq"]
@@ -55,7 +58,7 @@ class Gpio:
             self.glitch = int(self.config.get('pins')["glitch"])
 
             # set maximum number of pushes to filter input
-            self.count_filter = int(self.config.get('pins')["max_num_button_pushes"])
+            self.filter_limit = int(self.config.get('pins')["max_num_button_pushes"])
 
     def stop_motors(self):
         self.pi.set_PWM_dutycycle(self.motor_1, self.min_dutycycle)
@@ -70,8 +73,15 @@ class Gpio:
         # this will check for each input, count and get only the last counted input
         # which is always the correct push
         # so this algorithm is a filter for button pushes
+        print(f"button pushed: {button_gpio}")
         if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.count_filter and not self.first_button and not self.stop_reading:
+            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                print(f"how many times? {self.count_filter} - {self.filter_limit}")
+                if button_gpio == self.button_5:
+                    self.first_button = True
+                    print("pushed stop!!!!!!!!!!!!!!!!!!!")
+                    # self.winner_motor = self.motor_5
+                    self.stop_race = True
 
                 if button_gpio == self.button_4:
                     self.first_button = True
@@ -90,6 +100,12 @@ class Gpio:
                     self.winner_motor = self.motor_1    
             else:
                 self.count_filter += 1
+        if self.stop_reading and button_gpio == self.button_5:
+            self.first_button = True
+            print("pushed stop!!!!!!!!!!!!!!!!!!!")
+            # self.winner_motor = self.motor_5
+            self.stop_race = True
+            
 
     def setup_buttons(self):
         ''' Setup buttons as interrupts '''
@@ -116,6 +132,12 @@ class Gpio:
         self.pi.set_noise_filter(self.button_4, 50000, 50000)  # Debounce switch
         self.pi.set_glitch_filter(self.button_4, self.glitch)
         callback4 = self.pi.callback(self.button_4, pigpio.FALLING_EDGE, self.callback)
+    
+        self.pi.set_mode(self.button_5, pigpio.INPUT)
+        self.pi.set_pull_up_down(self.button_5, pigpio.PUD_UP)
+        self.pi.set_noise_filter(self.button_5, 50000, 50000)  # Debounce switch
+        self.pi.set_glitch_filter(self.button_5, self.glitch)
+        callback4 = self.pi.callback(self.button_5, pigpio.FALLING_EDGE, self.callback)
     
     def start_motor(self, motor, target_duty):
         ''' Send pulses to motor '''
