@@ -8,4 +8,4 @@ pwm_params:
     max_dutycycle: 1
     half_dutycycle: .5
     min_dutycycle: 0
-    max_time: 10
+    max_time: 10            # time in seconds that will allow the motors to run
