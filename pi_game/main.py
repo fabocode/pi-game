@@ -15,11 +15,6 @@ if __name__ == "__main__":
         # start motor_1
         motor = gpio.motor_1
         duty = gpio.max_dutycycle
-        
-
-        # to measure time 
-        start = 0
-        now = 0
 
         # do nothing while we wait for button push
         while True:
@@ -30,11 +25,16 @@ if __name__ == "__main__":
                 print("")
                 gpio.start_motor(gpio.winner_motor, gpio.max_dutycycle) # start at 100%
                 gpio.start_rest_of_motors(gpio.winner_motor) # run remaining motors at half of power
-                start = time.time()
-                now = time.time()
 
-            now = time.time()
-            time_dif = int(now - start)
+            # check if turn off is activated
+            if gpio.turn_off_motors:
+                gpio.turn_off_motors = False
+                gpio.reset()
+
+            # check individual turn calls
+            if gpio.motor_individual_start:
+                gpio.motor_individual_start = False
+                gpio.start_motor(gpio.motor_call, gpio.max_dutycycle)
 
             # continue until stop button is pushed
             if gpio.stop_race:
