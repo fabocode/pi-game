@@ -1,5 +1,10 @@
 pins:
-    buttons: [16, 5, 17, 22, 26, 8, 7, 14, 15, 21]
+    buttons: [
+        16, 5, 17, 22,          # motor race 
+        26,                     # stop program, restart? 
+        8,                      # turn off the motors
+        7, 14, 15, 21,          # turn off each motor individually 
+        20]                     # turn all the motors
     motors: [23, 24, 25, 27]
     glitch: 30000
     max_num_button_pushes: 0 # this number needs to increase with the number of button inputs
