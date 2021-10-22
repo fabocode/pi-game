@@ -81,10 +81,10 @@ if __name__ == "__main__":
 
                     # get the random values 
                     range_winner = gpio.max_dutycycle
-                    range_1 = get_random_val(0, 50)
-                    range_2 = get_random_val(0, 50)
-                    range_3 = get_random_val(0, 50)
-                    range_4 = get_random_val(0, 50)
+                    range_1 = get_random_val(0, 100)
+                    range_2 = get_random_val(0, 100)
+                    range_3 = get_random_val(0, 100)
+                    range_4 = get_random_val(0, 100)
                     # update the values into each motor 
                     gpio.start_motor(gpio.winner_motor, range_winner)
                     gpio.start_motor_no_winner(gpio.motor_1, range_1)
@@ -92,8 +92,6 @@ if __name__ == "__main__":
                     gpio.start_motor_no_winner(gpio.motor_3, range_3)
                     gpio.start_motor_no_winner(gpio.motor_4, range_4)
                     print(f"winner: {range_winner} - range_rest {range_1} - range_rest {range_2} - range_rest {range_3} - range_rest {range_4}")
-
-                
 
                 elif time_dif <= gpio.hold_race_time and gpio.stop_reading and is_running_at_start:
                     # get random values 
