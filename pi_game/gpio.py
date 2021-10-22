@@ -71,6 +71,7 @@ class Gpio:
             # max time allowed to run motors
             self.hold_race_time = float(self.config.get('pwm_params')["hold_race_time"])
             self.time_change_duty = float(self.config.get('pwm_params')["time_change_duty"])
+            self.one_sec = float(self.config.get('pwm_params')["one_sec"])
 
             # glitch for debouncing
             self.glitch = int(self.config.get('pins')["glitch"])
