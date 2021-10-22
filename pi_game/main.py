@@ -50,25 +50,17 @@ if __name__ == "__main__":
                 print("====================================")
                 print("")
                 
-                # this code is optional, I din't know if we needed to restart or stop the program
-                want_to_continue = input("Would you like to restart?: (Y/n): ")
-                if want_to_continue.lower() == 'n':
-                    print("Closing program now...")
-                    gpio.stop()
-                    exit() # end the program 
-                else:
-                    print("Game was restarted!...")
-                    print("")
-                    # gpio.start()
-                    gpio.stop_reading = False
-                    gpio.first_push = False
-                    gpio.first_button = False
-                    now = 0 
-                    start = 0
-                    gpio.winner_motor = 0
-                    gpio.stop_race = False
-                    gpio.stop_motors()
-                    continue
+                
+                print("Game was restarted!...")
+                print("")
+                gpio.stop_reading = False
+                gpio.first_push = False
+                gpio.first_button = False
+                now = 0 
+                start = 0
+                gpio.winner_motor = 0
+                gpio.stop_race = False
+                gpio.stop_motors()
 
             time.sleep(.1) # wait 100ms 
 

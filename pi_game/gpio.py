@@ -220,8 +220,6 @@ class Gpio:
         GPIO.add_event_detect(self.button_11, GPIO.FALLING, 
                 callback=self.button_pressed_callback_11, bouncetime=300)
         
-      
-    
     def start_motor(self, motor, target_duty):
         ''' Send pulses to motor '''
         duty = 255 * target_duty
