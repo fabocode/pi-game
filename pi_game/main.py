@@ -31,10 +31,15 @@ if __name__ == "__main__":
                 gpio.turn_off_motors = False
                 gpio.reset()
 
+            # check if turn off is activated
+            if gpio.turn_on_motors:
+                gpio.turn_on_motors = False
+                gpio.start_all_motors()   # turn them all on
+                
             # check individual turn calls
             if gpio.motor_individual_start:
                 gpio.motor_individual_start = False
-                gpio.start_motor(gpio.motor_call, gpio.max_dutycycle)
+                gpio.start_motor(gpio.motor_call, gpio.min_dutycycle)   # turn them off individually 
 
             # continue until stop button is pushed
             if gpio.stop_race:

@@ -19,6 +19,7 @@ class Gpio:
         self.stop_race = False
 
         self.turn_off_motors = False
+        self.turn_on_motors = False
         self.motor_individual_start = False
         self.motor_call =  0
 
@@ -46,6 +47,7 @@ class Gpio:
             self.button_8 = self.buttons[7]
             self.button_9 = self.buttons[8]
             self.button_10 = self.buttons[9]
+            self.button_11 = self.buttons[10]
             
             # set the pins used for the motors
             self.motors = self.config.get('pins')["motors"]
@@ -74,6 +76,12 @@ class Gpio:
         self.pi.set_PWM_dutycycle(self.motor_2, self.min_dutycycle)
         self.pi.set_PWM_dutycycle(self.motor_3, self.min_dutycycle)
         self.pi.set_PWM_dutycycle(self.motor_4, self.min_dutycycle)
+
+    def start_all_motors(self):
+        self.start_motor(self.motor_1, self.max_dutycycle)
+        self.start_motor(self.motor_2, self.max_dutycycle)
+        self.start_motor(self.motor_3, self.max_dutycycle)
+        self.start_motor(self.motor_4, self.max_dutycycle)
     
     def reset(self):
         self.stop_reading = False
@@ -156,6 +164,15 @@ class Gpio:
                 self.motor_individual_start = True
                 self.motor_call = self.motor_4
 
+    def button_pressed_callback_11(self, channel):
+        if not self.first_push and not self.stop_reading:
+            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                self.turn_on_motors = True
+
+        if self.stop_reading:
+            self.first_button = True
+            self.turn_on_motors = True
+
 
     def setup_buttons(self):
         ''' Setup buttons as interrupts '''
@@ -198,6 +215,10 @@ class Gpio:
         GPIO.setup(self.button_10, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_10, GPIO.FALLING, 
                 callback=self.button_pressed_callback_10, bouncetime=300)
+        
+        GPIO.setup(self.button_11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(self.button_11, GPIO.FALLING, 
+                callback=self.button_pressed_callback_11, bouncetime=300)
         
       
     
