@@ -1,8 +1,8 @@
 pins:
-    buttons: [16, 5, 17, 22, 26]
+    buttons: [16, 5, 17, 22, 26, 8, 7, 14, 15, 21]
     motors: [23, 24, 25, 27]
     glitch: 30000
-    max_num_button_pushes: 4 # this number needs to increase with the number of button inputs
+    max_num_button_pushes: 0 # this number needs to increase with the number of button inputs
 pwm_params:
     freq: 400
     max_dutycycle: 1
