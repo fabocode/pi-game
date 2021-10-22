@@ -27,6 +27,12 @@ class Gpio:
         self.count_filter = 0 
         if not self.pi.connected:
             exit()
+    
+    def start_motor_no_winner(self, motor, duty):
+        if motor != self.winner_motor:
+            self.start_motor(motor, duty)
+        else:
+            print(f"no update {motor}, because is the winner ")
 
     def load(self):
         """Loads a yaml file"""
@@ -63,7 +69,8 @@ class Gpio:
             self.min_dutycycle = float(self.config.get('pwm_params')["min_dutycycle"])
 
             # max time allowed to run motors
-            self.maxtime = float(self.config.get('pwm_params')["max_time"])
+            self.hold_race_time = float(self.config.get('pwm_params')["hold_race_time"])
+            self.time_change_duty = float(self.config.get('pwm_params')["time_change_duty"])
 
             # glitch for debouncing
             self.glitch = int(self.config.get('pins')["glitch"])
@@ -230,7 +237,7 @@ class Gpio:
         ''' Stop motor '''
         self.pi.set_PWM_dutycycle(motor, self.min_dutycycle)
 
-    def start_rest_of_motors(self, winner):
+    def start_rest_of_motors(self, winner, dutycycle=0.5):
         ''' Starts all the motors at half duty cycle instead winner motor '''
         for motor in self.motors:
             if winner != motor:
