@@ -71,10 +71,8 @@ if __name__ == "__main__":
 
             if time_dif_sec > gpio.one_sec and gpio.stop_reading:
                 last_start_race = time.time()
-                print("every sec")
             
                 if time_dif > gpio.hold_race_time and gpio.stop_reading:
-                    print("2 seconds elapsed")
                     last = time.time()
                     is_running_at_start = False
                     gpio.hold_race_time = gpio.time_change_duty   # change every 1 second
@@ -91,11 +89,9 @@ if __name__ == "__main__":
                     gpio.start_motor_no_winner(gpio.motor_2, range_2)
                     gpio.start_motor_no_winner(gpio.motor_3, range_3)
                     gpio.start_motor_no_winner(gpio.motor_4, range_4)
-                    print(f"winner: {range_winner} - range_rest {range_1} - range_rest {range_2} - range_rest {range_3} - range_rest {range_4}")
 
                 elif time_dif <= gpio.hold_race_time and gpio.stop_reading and is_running_at_start:
                     # get random values 
-                    print("get random")
                     range_winner = get_random_val(0, 50)
                     range_1 = get_random_val(50, 100)
                     range_2 = get_random_val(50, 100)
@@ -107,7 +103,6 @@ if __name__ == "__main__":
                     gpio.start_motor_no_winner(gpio.motor_2, range_2)
                     gpio.start_motor_no_winner(gpio.motor_3, range_3)
                     gpio.start_motor_no_winner(gpio.motor_4, range_4)
-                    print(f"winner: {range_winner} - range_rest {range_1} - range_rest {range_2} - range_rest {range_3} - range_rest {range_4}")
 
             # continue until stop button is pushed
             if gpio.stop_race:

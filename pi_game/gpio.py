@@ -31,8 +31,6 @@ class Gpio:
     def start_motor_no_winner(self, motor, duty):
         if motor != self.winner_motor:
             self.start_motor(motor, duty)
-        else:
-            print(f"no update {motor}, because is the winner ")
 
     def load(self):
         """Loads a yaml file"""
