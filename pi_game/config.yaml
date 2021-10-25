@@ -1,11 +1,18 @@
 pins:
-    buttons: [16, 5, 17, 22, 26]
+    buttons: [
+        16, 5, 17, 22,          # motor race 
+        26,                     # stop program, restart? 
+        8,                      # turn off the motors
+        7, 14, 15, 21,          # turn off each motor individually 
+        20]                     # turn all the motors
     motors: [23, 24, 25, 27]
     glitch: 30000
-    max_num_button_pushes: 4 # this number needs to increase with the number of button inputs
+    max_num_button_pushes: 0 # this number needs to increase with the number of button inputs
 pwm_params:
     freq: 400
     max_dutycycle: 1
     half_dutycycle: .5
     min_dutycycle: 0
-    max_time: 10            # time in seconds that will allow the motors to run
+    hold_race_time: 2            # time in seconds that will allow the motors to run
+    time_change_duty: 1
+    one_sec: 1
