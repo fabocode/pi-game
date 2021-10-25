@@ -77,6 +77,9 @@ class Gpio:
             # set maximum number of pushes to filter input
             self.filter_limit = int(self.config.get('pins')["max_num_button_pushes"])
 
+            # load debouncing time
+            self.time_debounce = int(self.config.get('pins')["debounce_time"])
+
     def stop_motors(self):
         self.pi.set_PWM_dutycycle(self.motor_1, self.min_dutycycle)
         self.pi.set_PWM_dutycycle(self.motor_2, self.min_dutycycle)
@@ -184,47 +187,47 @@ class Gpio:
         ''' Setup buttons as interrupts '''
         GPIO.setup(self.button_1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_1, GPIO.FALLING, 
-                callback=self.button_pressed_callback_1, bouncetime=300)
+                callback=self.button_pressed_callback_1, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_2, GPIO.FALLING, 
-                callback=self.button_pressed_callback_2, bouncetime=300)
+                callback=self.button_pressed_callback_2, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_3, GPIO.FALLING, 
-                callback=self.button_pressed_callback_3, bouncetime=300)
+                callback=self.button_pressed_callback_3, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_4, GPIO.FALLING, 
-                callback=self.button_pressed_callback_4, bouncetime=300)
+                callback=self.button_pressed_callback_4, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_5, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_5, GPIO.FALLING, 
-                callback=self.button_pressed_callback_5, bouncetime=300)
+                callback=self.button_pressed_callback_5, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_6, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_6, GPIO.FALLING, 
-                callback=self.button_pressed_callback_6, bouncetime=300)
+                callback=self.button_pressed_callback_6, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_7, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_7, GPIO.FALLING, 
-                callback=self.button_pressed_callback_7, bouncetime=300)
+                callback=self.button_pressed_callback_7, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_8, GPIO.FALLING, 
-                callback=self.button_pressed_callback_8, bouncetime=300)
+                callback=self.button_pressed_callback_8, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_9, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_9, GPIO.FALLING, 
-                callback=self.button_pressed_callback_9, bouncetime=300)
+                callback=self.button_pressed_callback_9, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_10, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_10, GPIO.FALLING, 
-                callback=self.button_pressed_callback_10, bouncetime=300)
+                callback=self.button_pressed_callback_10, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_11, GPIO.FALLING, 
-                callback=self.button_pressed_callback_11, bouncetime=300)
+                callback=self.button_pressed_callback_11, bouncetime=self.time_debounce)
         
     def start_motor(self, motor, target_duty):
         ''' Send pulses to motor '''
