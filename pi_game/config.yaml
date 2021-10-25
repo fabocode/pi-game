@@ -9,6 +9,7 @@ pins:
     glitch: 30000
     max_num_button_pushes: 0 # this number needs to increase with the number of button inputs
     debounce_time: 500      # time in ms to ignore furthher edges for 200s for switch bounce handling
+    min_sleep: 0.15
 pwm_params:
     freq: 400
     max_dutycycle: 1

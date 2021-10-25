@@ -23,6 +23,41 @@ class Gpio:
         self.motor_individual_start = False
         self.motor_call =  0
 
+        # to handle debouncing
+        self.previous_button_1_state = True 
+        self.current_button_1_state = False 
+
+        self.previous_button_2_state = True 
+        self.current_button_2_state = False 
+
+        self.previous_button_3_state = True 
+        self.current_button_3_state = False 
+
+        self.previous_button_4_state = True 
+        self.current_button_4_state = False 
+
+        self.previous_button_5_state = True 
+        self.current_button_5_state = False 
+
+        self.previous_button_6_state = True 
+        self.current_button_6_state = False 
+
+        self.previous_button_7_state = True 
+        self.current_button_7_state = False 
+
+        self.previous_button_8_state = True 
+        self.current_button_8_state = False 
+
+        self.previous_button_9_state = True 
+        self.current_button_9_state = False 
+
+        self.previous_button_10_state = True 
+        self.current_button_10_state = False 
+
+        self.previous_button_11_state = True 
+        self.current_button_11_state = False 
+
+
         # first test is failing
         self.count_filter = 0 
         if not self.pi.connected:
@@ -80,6 +115,9 @@ class Gpio:
             # load debouncing time
             self.time_debounce = int(self.config.get('pins')["debounce_time"])
 
+            # load min sleep debouncing time
+            self.min_sleep = float(self.config.get('pins')["min_sleep"])
+
     def stop_motors(self):
         self.pi.set_PWM_dutycycle(self.motor_1, self.min_dutycycle)
         self.pi.set_PWM_dutycycle(self.motor_2, self.min_dutycycle)
@@ -104,83 +142,147 @@ class Gpio:
         self.stop_motors()
 
     def button_pressed_callback_1(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.first_button = True
-                self.winner_motor = self.motor_1    
+        
+        if self.previous_button_1_state != self.current_button_1_state:
+            self.current_button_1_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.first_button = True
+                    self.winner_motor = self.motor_1    
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_1_state = False
+        
 
     def button_pressed_callback_2(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.first_button = True
-                self.winner_motor = self.motor_2    
+
+        if self.previous_button_2_state != self.current_button_2_state:
+            self.current_button_2_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.first_button = True
+                    self.winner_motor = self.motor_2    
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_2_state = False
+
 
 
     def button_pressed_callback_3(self, channel):
-         if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.first_button = True
-                self.winner_motor = self.motor_3   
+        if self.previous_button_3_state != self.current_button_3_state:
+            self.current_button_3_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.first_button = True
+                    self.winner_motor = self.motor_3   
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_3_state = False
 
 
     def button_pressed_callback_4(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.first_button = True
-                self.winner_motor = self.motor_4   
 
+        if self.previous_button_4_state != self.current_button_4_state:
+            self.current_button_4_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.first_button = True
+                    self.winner_motor = self.motor_4   
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_4_state = False
         
     def button_pressed_callback_5(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+        
+        if self.previous_button_5_state != self.current_button_5_state:
+            self.current_button_5_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.first_button = True
+                    self.stop_race = True
+
+            if self.stop_reading:
                 self.first_button = True
                 self.stop_race = True
 
-        if self.stop_reading:
-            self.first_button = True
-            self.stop_race = True
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_5_state = False
+        
 
     def button_pressed_callback_6(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+        if self.previous_button_6_state != self.current_button_6_state:
+            self.current_button_6_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.turn_off_motors = True
+
+            if self.stop_reading:
+                self.first_button = True
                 self.turn_off_motors = True
 
-        if self.stop_reading:
-            self.first_button = True
-            self.turn_off_motors = True
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_6_state
 
     def button_pressed_callback_7(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.motor_individual_start = True
-                self.motor_call = self.motor_1
+        if self.previous_button_7_state != self.current_button_7_state:
+            self.current_button_7_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.motor_individual_start = True
+                    self.motor_call = self.motor_1
+
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_7_state = False
 
     def button_pressed_callback_8(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.motor_individual_start = True
-                self.motor_call = self.motor_2
+        if self.previous_button_8_state != self.current_button_8_state:
+            self.current_button_8_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.motor_individual_start = True
+                    self.motor_call = self.motor_2
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_8_state = False
 
     def button_pressed_callback_9(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.motor_individual_start = True
-                self.motor_call = self.motor_3
+        if self.previous_button_9_state != self.current_button_9_state:
+            self.current_button_9_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.motor_individual_start = True
+                    self.motor_call = self.motor_3
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_9_state = False
 
     def button_pressed_callback_10(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.motor_individual_start = True
-                self.motor_call = self.motor_4
+        if self.previous_button_10_state != self.current_button_10_state:
+            self.current_button_10_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.motor_individual_start = True
+                    self.motor_call = self.motor_4
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_10_state = False
 
     def button_pressed_callback_11(self, channel):
-        if not self.first_push and not self.stop_reading:
-            if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
-                self.turn_on_motors = True
+        if self.previous_button_11_state != self.current_button_11_state:
+            self.current_button_11_state = True 
+            if not self.first_push and not self.stop_reading:
+                if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
+                    self.turn_on_motors = True
 
-        if self.stop_reading:
-            self.first_button = True
-            self.turn_on_motors = True
+            if self.stop_reading:
+                self.first_button = True
+                self.turn_on_motors = True
+            time.sleep(self.min_sleep)
+        else:
+            self.current_button_11_state = False
 
 
     def setup_buttons(self):
