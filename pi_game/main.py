@@ -37,7 +37,7 @@ if __name__ == "__main__":
                 now = time.time()
                 # print(f"pushed stop {now - last_stop}")
                 if now - last_stop >= .2:
-                    # print(f"button 6 pressed: {should_stop_motors}")
+                    print(f"button 6 pressed: {should_stop_motors}")
                     if not gpio.first_push and not gpio.stop_reading:
                         if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
                             gpio.turn_off_motors = True
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 now = time.time()
                 # print(f"pushed start {now - last_start}")
                 if now - last_start >= .2:  # if status is keeped for 200ms 
-                    # print(f"button 11 pressed: {should_start_motors}")
+                    print(f"button 11 pressed: {should_start_motors}")
                     if not gpio.first_push and not gpio.stop_reading:
                         if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
                             gpio.turn_on_motors = True
