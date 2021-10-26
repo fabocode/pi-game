@@ -156,11 +156,11 @@ class Gpio:
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_1_last_time >= 1:
-            print(f"button 1 pressed: {GPIO.input(self.button_1)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.first_button = True
                     self.winner_motor = self.motor_1    
+                    print(f"button 1 pressed: {GPIO.input(self.button_1)}")
         self.button_1_last_time = time_now
         
 
@@ -168,11 +168,11 @@ class Gpio:
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_2_last_time >= 1:
-            print(f"button 2 pressed: {GPIO.input(self.button_2)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.first_button = True
                     self.winner_motor = self.motor_2    
+                    print(f"button 2 pressed: {GPIO.input(self.button_2)}")
         self.button_2_last_time = time_now
 
 
@@ -180,37 +180,38 @@ class Gpio:
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_3_last_time >= 1:
-            print(f"button 3 pressed: {GPIO.input(self.button_3)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.first_button = True
                     self.winner_motor = self.motor_3   
+                    print(f"button 3 pressed: {GPIO.input(self.button_3)}")
         self.button_3_last_time = time_now
 
     def button_pressed_callback_4(self, channel):
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_4_last_time >= 1:
-            print(f"button 4 pressed: {GPIO.input(self.button_4)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.first_button = True
                     self.winner_motor = self.motor_4 
+                    print(f"button 4 pressed: {GPIO.input(self.button_4)}")
         self.button_4_last_time = time_now
         
     def button_pressed_callback_5(self, channel):
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_5_last_time >= 1:
-            print(f"button 5 pressed: {GPIO.input(self.button_5)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.first_button = True
                     self.stop_race = True
+                    print(f"button 5 pressed: {GPIO.input(self.button_5)}")
 
             if self.stop_reading:
                 self.first_button = True
                 self.stop_race = True
+                print(f"button 5 pressed: {GPIO.input(self.button_5)}")
         self.button_5_last_time = time_now
         
 
@@ -218,14 +219,15 @@ class Gpio:
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_6_last_time >= 1:
-            print(f"button 6 pressed: {GPIO.input(self.button_6)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.turn_off_motors = True
+                    print(f"button 6 pressed: {GPIO.input(self.button_6)}")
 
             if self.stop_reading:
                 self.first_button = True
                 self.turn_off_motors = True
+                print(f"button 6 pressed: {GPIO.input(self.button_6)}")
         print("noise noise noise noise!")
         self.button_6_last_time = time.time()
 
@@ -234,44 +236,44 @@ class Gpio:
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_7_last_time >= 1:
-            print(f"button 7 pressed: {GPIO.input(self.button_7)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.motor_individual_start = True
                     self.motor_call = self.motor_1
+                    print(f"button 7 pressed: {GPIO.input(self.button_7)}")
         self.button_7_last_time = time_now
 
     def button_pressed_callback_8(self, channel):
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_8_last_time >= 1:
-            print(f"button 8 pressed: {GPIO.input(self.button_8)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.motor_individual_start = True
                     self.motor_call = self.motor_2
+                    print(f"button 8 pressed: {GPIO.input(self.button_8)}")
         self.button_8_last_time = time_now
 
     def button_pressed_callback_9(self, channel):
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_9_last_time >= 1:
-            print(f"button 9 pressed: {GPIO.input(self.button_9)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.motor_individual_start = True
                     self.motor_call = self.motor_3
+                    print(f"button 9 pressed: {GPIO.input(self.button_9)}")
         self.button_9_last_time = time_now
 
     def button_pressed_callback_10(self, channel):
         time.sleep(0.01)
         time_now = time.time()
         if time_now - self.button_10_last_time >= 1:
-            print(f"button 10 pressed: {GPIO.input(self.button_10)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.motor_individual_start = True
                     self.motor_call = self.motor_4
+                    print(f"button 10 pressed: {GPIO.input(self.button_10)}")
         self.button_10_last_time = time_now
 
     def button_pressed_callback_11(self, channel):
@@ -279,14 +281,15 @@ class Gpio:
 
         time_now = time.time()
         if time_now - self.button_11_last_time >= 1:
-            print(f"button 11 pressed: {GPIO.input(self.button_11)}")
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
                     self.turn_on_motors = True
+                    print(f"button 11 pressed: {GPIO.input(self.button_11)}")
 
             if self.stop_reading:
                 self.first_button = True
                 self.turn_on_motors = True
+                print(f"button 11 pressed: {GPIO.input(self.button_11)}")
         self.button_11_last_time = time.time()
 
 
