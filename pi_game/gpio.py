@@ -313,8 +313,8 @@ class Gpio:
                 callback=self.button_pressed_callback_5, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_6, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.button_6, GPIO.FALLING, 
-                callback=self.button_pressed_callback_6, bouncetime=self.time_debounce)
+        # GPIO.add_event_detect(self.button_6, GPIO.FALLING, 
+        #         callback=self.button_pressed_callback_6, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_7, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.button_7, GPIO.FALLING, 
@@ -333,9 +333,17 @@ class Gpio:
                 callback=self.button_pressed_callback_10, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.button_11, GPIO.FALLING, 
-                callback=self.button_pressed_callback_11, bouncetime=self.time_debounce)
-        
+        # GPIO.add_event_detect(self.button_11, GPIO.FALLING, 
+        #         callback=self.button_pressed_callback_11, bouncetime=self.time_debounce)
+    
+    def get_stop_button(self):
+        return GPIO.input(self.button_6)
+    
+    def get_start_button(self):
+        return GPIO.input(self.button_11)
+    
+
+
     def start_motor(self, motor, target_duty):
         ''' Send pulses to motor '''
         duty = 255 * target_duty

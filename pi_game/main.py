@@ -25,9 +25,44 @@ if __name__ == "__main__":
         last_start_race = 0
 
         is_running_at_start = True
+        
+        last_stop = time.time()
+        last_start = time.time()
 
         # do nothing while we wait for button push
         while True:
+            ## poll the stop and start motors input
+            should_stop_motors = gpio.get_stop_button()
+            if should_stop_motors:
+                now = time.time()
+                # print(f"pushed stop {now - last_stop}")
+                if now - last_stop >= .2:
+                    # print(f"button 6 pressed: {should_stop_motors}")
+                    if not gpio.first_push and not gpio.stop_reading:
+                        if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
+                            gpio.turn_off_motors = True
+
+                    if gpio.stop_reading:
+                        gpio.first_button = True
+                        gpio.turn_off_motors = True
+                last_stop = time.time()
+
+            should_start_motors = gpio.get_start_button() 
+            if not should_start_motors:
+                now = time.time()
+                # print(f"pushed start {now - last_start}")
+                if now - last_start >= .2:  # if status is keeped for 200ms 
+                    # print(f"button 11 pressed: {should_start_motors}")
+                    if not gpio.first_push and not gpio.stop_reading:
+                        if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
+                            gpio.turn_on_motors = True
+
+                    if gpio.stop_reading:
+                        gpio.first_button = True
+                        gpio.turn_on_motors = True
+                last_start = time.time()
+
+
             if gpio.first_button and not gpio.stop_reading and not gpio.stop_race:
                 gpio.stop_reading = True
                 print(f"we have a winner! -> motor at pin {gpio.winner_motor} is the winner, start the race and stop with push button")
