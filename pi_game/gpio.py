@@ -155,6 +155,7 @@ class Gpio:
     def button_pressed_callback_1(self, channel):
         time.sleep(0.01)
         time_now = time.time()
+        print(f"pressed 1 time: {time_now - self.button_1_last_time}")
         if time_now - self.button_1_last_time >= 1:
             if not self.first_push and not self.stop_reading:
                 if self.count_filter >= self.filter_limit and not self.first_button and not self.stop_reading:
@@ -312,8 +313,8 @@ class Gpio:
                 callback=self.button_pressed_callback_4, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_5, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(self.button_5, GPIO.FALLING, 
-                callback=self.button_pressed_callback_5, bouncetime=self.time_debounce)
+        # GPIO.add_event_detect(self.button_5, GPIO.FALLING, 
+        #         callback=self.button_pressed_callback_5, bouncetime=self.time_debounce)
         
         GPIO.setup(self.button_6, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.button_6, GPIO.FALLING, 
@@ -344,6 +345,9 @@ class Gpio:
     
     def get_start_button(self):
         return GPIO.input(self.button_11)
+
+    def get_end_button(self):
+        return GPIO.input(self.button_5)
     
 
 

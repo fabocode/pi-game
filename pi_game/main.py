@@ -28,38 +28,54 @@ if __name__ == "__main__":
         
         last_stop = time.time()
         last_start = time.time()
+        last_end = time.time()
 
         # do nothing while we wait for button push
         while True:
             ## poll the stop and start motors input
-            should_stop_motors = gpio.get_stop_button()
-            if should_stop_motors:
-                now = time.time()
-                # print(f"pushed stop {now - last_stop}")
-                if now - last_stop >= .2:
-                    print(f"button 6 pressed: {should_stop_motors}")
-                    if not gpio.first_push and not gpio.stop_reading:
-                        if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
-                            gpio.turn_off_motors = True
-
-                    if gpio.stop_reading:
+            should_end = gpio.get_end_button()
+            now = time.time()
+            if now - last_end >= .5 and not should_end:
+                if not gpio.first_push and not gpio.stop_reading:
+                    if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
                         gpio.first_button = True
+                        gpio.stop_race = True
+                        print(f"button 5 (END) pressed: {should_end}")
+
+                if gpio.stop_reading:
+                    gpio.first_button = True
+                    gpio.stop_race = True
+                    print(f"button 5 (END) pressed: {should_end}")
+                last_end = time.time()
+
+            should_stop_motors = gpio.get_stop_button()
+            now = time.time()
+            if now - last_stop >= .5 and should_stop_motors:
+                if not gpio.first_push and not gpio.stop_reading:
+                    if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
                         gpio.turn_off_motors = True
+                        print(f"button 6 (STOP_MOTORS) pressed: {should_stop_motors}")
+
+                if gpio.stop_reading:
+                    gpio.first_button = True
+                    gpio.turn_off_motors = True
+                    print(f"button 6 (STOP_MOTORS) pressed: {should_stop_motors}")
                 last_stop = time.time()
 
             should_start_motors = gpio.get_start_button() 
-            if not should_start_motors:
-                now = time.time()
-                # print(f"pushed start {now - last_start}")
-                if now - last_start >= .2:  # if status is keeped for 200ms 
-                    print(f"button 11 pressed: {should_start_motors}")
-                    if not gpio.first_push and not gpio.stop_reading:
-                        if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
-                            gpio.turn_on_motors = True
-
-                    if gpio.stop_reading:
-                        gpio.first_button = True
+            # if not should_start_motors:
+            now = time.time()
+            # print(f"pushed start {now - last_start}")
+            if now - last_start >= .5 and not should_start_motors:  # if status is keeped for 200ms 
+                if not gpio.first_push and not gpio.stop_reading:
+                    if gpio.count_filter >= gpio.filter_limit and not gpio.first_button and not gpio.stop_reading:
                         gpio.turn_on_motors = True
+                        print(f"button 11 (START_MOTORS) pressed: {should_start_motors}")
+
+                if gpio.stop_reading:
+                    gpio.first_button = True
+                    gpio.turn_on_motors = True
+                    print(f"button 11 (START_MOTORS) pressed: {should_start_motors}")
                 last_start = time.time()
 
 
