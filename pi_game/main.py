@@ -26,8 +26,28 @@ if __name__ == "__main__":
 
         is_running_at_start = True
 
+        last_review = time.time()
+
         # do nothing while we wait for button push
         while True:
+            # check every x seconds for the inputs is a possible solution
+            # now = time.time()
+            # if now - last_review >= 1:
+            #     if gpio.button_1_set:
+            #         # print("push 1 accepted")
+            #         pass
+            #     else:
+            #         # print("push 1 not pushed")
+            #         gpio.button_1_set = False 
+            #     if gpio.button_6_set:
+            #         print("push 6 accepted")
+            #         gpio.button_6_set = False 
+            #     else:
+            #         # print("push 6 not pushed")
+            #         gpio.button_6_set = False 
+            #     last_review = time.time()
+            
+
             if gpio.first_button and not gpio.stop_reading and not gpio.stop_race:
                 gpio.stop_reading = True
                 print(f"we have a winner! -> motor at pin {gpio.winner_motor} is the winner, start the race and stop with push button")
@@ -53,6 +73,7 @@ if __name__ == "__main__":
                 
             # check individual turn calls
             if gpio.motor_individual_start:
+                print("turn off individually")
                 gpio.motor_individual_start = False
                 gpio.start_motor(gpio.motor_call, gpio.min_dutycycle)   # turn them off individually 
 
